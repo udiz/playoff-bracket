@@ -1,0 +1,60 @@
+<html>
+    <head>
+        <title>Playoff Bracket</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='user_bracket.css') }}">
+    <body>
+        <h1>Playoff Prediction by {{ name }}</h1>
+        <main id="bracket">
+            {% for round in bracket.west_rounds %}
+            <ul class="round round-{{ round.number }}">
+                {% for series in round.series %}
+                <li class="spacer">&nbsp;</li>
+
+                <li class="game game-top {% if series.score.winner == 0 %}winner{% endif %}">
+                    {{ series.team1 }}<span>{{ series.score.team1_wins }}</span>
+                </li>
+                <li class="game game-spacer-west">&nbsp;</li>
+                <li class="game game-bottom {% if series.score.winner == 1 %}winner{% endif %}">
+                    {{ series.team2 }} <span> {{ series.score.team2_wins }}</span>
+                </li>
+                {% endfor %}
+                <li class="spacer">&nbsp;</li>
+            </ul>
+            {% endfor %}
+
+            
+            <ul class="round round-{{ bracket.final.number }}">
+                {% for series in bracket.final.series %}
+                <li class="spacer">&nbsp;</li>
+
+                <li class="game game-top {% if series.score.winner == 0 %}winner{% endif %}">
+                    {{ series.team1 }}<span>{{ series.score.team1_wins }}</span>
+                </li>
+                <li class="game game-spacer-final">&nbsp;</li>
+                <li class="game game-bottom {% if series.score.winner == 1 %}winner{% endif %}">
+                    {{ series.team2 }} <span> {{ series.score.team2_wins }}</span>
+                </li>
+                {% endfor %}
+                <li class="spacer">&nbsp;</li>
+            </ul>
+
+            {% for round in bracket.east_rounds %}
+            <ul class="round round-{{ round.number }}">
+                {% for series in round.series %}
+                <li class="spacer">&nbsp;</li>
+
+                <li class="game game-top {% if series.score.winner == 0 %}winner{% endif %}">
+                    {{ series.team1 }}<span>{{ series.score.team1_wins }}</span>
+                </li>
+                <li class="game game-spacer-east">&nbsp;</li>
+                <li class="game game-bottom {% if series.score.winner == 1 %}winner{% endif %}">
+                    {{ series.team2 }} <span> {{ series.score.team2_wins }}</span>
+                </li>
+                {% endfor %}
+                <li class="spacer">&nbsp;</li>
+            </ul>
+            {% endfor %}
+            
+        </main>
+    </body>
+</html>

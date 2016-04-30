@@ -8,6 +8,9 @@ class Team:
     def __init__(self, team_name):
         self.name = team_name
 
+    def __str__(self):
+        return self.name
+
 class Score:
     def __init__(self, team1_wins=0, team2_wins=0):
         self.team1_wins = team1_wins
@@ -26,7 +29,7 @@ class Score:
         self.check_winner()
 
 class Series:
-    def __init__(self, team1, team2, score=Score(0,0))
+    def __init__(self, team1, team2, score=Score(0,0)):
         """ init a series with team1 as the home-advantage team and team2 as the second team. """
         self.team1 = team1
         self.team2 = team2
@@ -42,8 +45,24 @@ class Bracket:
     def __init__(self, east_rounds, west_rounds, final):
         self.east_rounds = east_rounds
         self.west_rounds = west_rounds
+        self.east_rounds.reverse()
         self.final = final
+        self.rounds = west_rounds + [final] + east_rounds
 
-@app.route('/<name>')
+@app.route('/')
 def display_bracket():
-    return render_template('user_bracket.html', name=name)
+    return render_template('user_bracket.html', name="udi", bracket=bracket)
+
+
+team1 = Team('Warriors')
+team2 = Team('Spurs')
+serie = Series(team1, team2)
+round1 = Round(1, [serie]*4)
+round2 = Round(2, [serie]*2)
+round3 = Round(3, [serie])
+conf = [round1, round2, round3]
+final = Round(4, [serie])
+bracket = Bracket(conf, list(conf), final)
+
+if __name__ == '__main__':
+    app.run(debug=True)
