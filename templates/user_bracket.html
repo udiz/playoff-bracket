@@ -5,17 +5,19 @@
     <body>
         <h1>Playoff Prediction by {{ name }}</h1>
         <main id="bracket">
-            {% for round in bracket.west_rounds %}
+            {% for round, round_actual in zip(bracket.west_rounds, bracket_actual.west_rounds) %}
             <ul class="round round-{{ round.number }}">
-                {% for series in round.series %}
+                {% for series, series_actual  in zip(round.series, round_actual.series) %}
                 <li class="spacer">&nbsp;</li>
 
-                <li class="game game-top {% if series.score.winner == 0 %}winner{% endif %}">
-                    {{ series.team1 }}<span>{{ series.score.team1_wins }}</span>
+                <li class="game game-top {% if series.score.winner == 0 %}winner{% endif %} {% if not series.is_team1_wins_correct(series_actual) %}wrong{% endif %}">
+                    <a onmouseover="this.innerHTML = '{{ series_actual.team1}}'" onmouseout="this.innerHTML = '{{ series.team1 }}'">{{ series.team1 }}</a> <span>
+                        <a onmouseover="this.innerHTML = '{{ series_actual.score.team1_wins}}'" onmouseout="this.innerHTML = '{{ series.score.team1_wins}}'">  {{ series.score.team1_wins }}</a> </span>
                 </li>
                 <li class="game game-spacer-west">&nbsp;</li>
-                <li class="game game-bottom {% if series.score.winner == 1 %}winner{% endif %}">
-                    {{ series.team2 }} <span> {{ series.score.team2_wins }}</span>
+                <li class="game game-bottom {% if series.score.winner == 1 %}winner{% endif %} {% if not series.is_team2_wins_correct(series_actual) %}wrong{% endif %}">
+                    <a onmouseover="this.innerHTML = '{{ series_actual.team2}}'" onmouseout="this.innerHTML = '{{ series.team2 }}'">{{ series.team2 }}</a> <span>
+                        <a onmouseover="this.innerHTML = '{{ series_actual.score.team2_wins}}'" onmouseout="this.innerHTML = '{{ series.score.team2_wins}}'">  {{ series.score.team2_wins }}</a> </span>
                 </li>
                 {% endfor %}
                 <li class="spacer">&nbsp;</li>
@@ -24,31 +26,35 @@
 
             
             <ul class="round round-{{ bracket.final.number }}">
-                {% for series in bracket.final.series %}
+                {% for series, series_actual  in zip(bracket.final.series, bracket_actual.final.series) %}
                 <li class="spacer">&nbsp;</li>
 
-                <li class="game game-top {% if series.score.winner == 0 %}winner{% endif %}">
-                    {{ series.team1 }}<span>{{ series.score.team1_wins }}</span>
+                <li class="game game-top {% if series.score.winner == 0 %}winner{% endif %} {% if not series.is_team1_wins_correct(series_actual) %}wrong{% endif %}">
+                    <a onmouseover="this.innerHTML = '{{ series_actual.team1}}'" onmouseout="this.innerHTML = '{{ series.team1 }}'">{{ series.team1 }}</a> <span>
+                        <a onmouseover="this.innerHTML = '{{ series_actual.score.team1_wins}}'" onmouseout="this.innerHTML = '{{ series.score.team1_wins}}'">  {{ series.score.team1_wins }}</a> </span>
                 </li>
                 <li class="game game-spacer-final">&nbsp;</li>
-                <li class="game game-bottom {% if series.score.winner == 1 %}winner{% endif %}">
-                    {{ series.team2 }} <span> {{ series.score.team2_wins }}</span>
+                <li class="game game-bottom {% if series.score.winner == 1 %}winner{% endif %} {% if not series.is_team2_wins_correct(series_actual) %}wrong{% endif %}">
+                    <a onmouseover="this.innerHTML = '{{ series_actual.team2}}'" onmouseout="this.innerHTML = '{{ series.team2 }}'">{{ series.team2 }}</a> <span>
+                        <a onmouseover="this.innerHTML = '{{ series_actual.score.team2_wins}}'" onmouseout="this.innerHTML = '{{ series.score.team2_wins}}'">  {{ series.score.team2_wins }}</a> </span>
                 </li>
                 {% endfor %}
                 <li class="spacer">&nbsp;</li>
             </ul>
 
-            {% for round in bracket.east_rounds %}
+            {% for round, round_actual in zip(bracket.east_rounds, bracket_actual.east_rounds) %}
             <ul class="round round-{{ round.number }}">
-                {% for series in round.series %}
+                {% for series, series_actual  in zip(round.series, round_actual.series) %}
                 <li class="spacer">&nbsp;</li>
 
-                <li class="game game-top {% if series.score.winner == 0 %}winner{% endif %}">
-                    {{ series.team1 }}<span>{{ series.score.team1_wins }}</span>
+                <li class="game game-top {% if series.score.winner == 0 %}winner{% endif %} {% if not series.is_team1_wins_correct(series_actual) %}wrong{% endif %}">
+                    <a onmouseover="this.innerHTML = '{{ series_actual.team1}}'" onmouseout="this.innerHTML = '{{ series.team1 }}'">{{ series.team1 }}</a> <span>
+                        <a onmouseover="this.innerHTML = '{{ series_actual.score.team1_wins}}'" onmouseout="this.innerHTML = '{{ series.score.team1_wins}}'">  {{ series.score.team1_wins }}</a> </span>
                 </li>
                 <li class="game game-spacer-east">&nbsp;</li>
-                <li class="game game-bottom {% if series.score.winner == 1 %}winner{% endif %}">
-                    {{ series.team2 }} <span> {{ series.score.team2_wins }}</span>
+                <li class="game game-bottom {% if series.score.winner == 1 %}winner{% endif %} {% if not series.is_team2_wins_correct(series_actual) %}wrong{% endif %}">
+                    <a onmouseover="this.innerHTML = '{{ series_actual.team2}}'" onmouseout="this.innerHTML = '{{ series.team2 }}'">{{ series.team2 }}</a> <span>
+                        <a onmouseover="this.innerHTML = '{{ series_actual.score.team2_wins}}'" onmouseout="this.innerHTML = '{{ series.score.team2_wins}}'">  {{ series.score.team2_wins }}</a> </span>
                 </li>
                 {% endfor %}
                 <li class="spacer">&nbsp;</li>

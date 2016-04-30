@@ -4,6 +4,10 @@ app = Flask(__name__)
 TEAM1 = 0
 TEAM2 = 1
 
+@app.template_global(name='zip')
+def _zip(*args, **kwargs): #to not overwrite builtin zip in globals
+        return __builtins__.zip(*args, **kwargs)
+
 class Team:
     def __init__(self, team_name):
         self.name = team_name
@@ -35,6 +39,14 @@ class Series:
         self.team2 = team2
         self.score = score
 
+    def is_correct(self, series_actual):
+        return self.score.team1_wins == series_actual.score.team1_wins and self.score.team2_wins == series_actual.score.team2_wins
+
+    def is_team1_wins_correct(self,series_actual):
+        return self.score.team1_wins == series_actual.score.team1_wins
+
+    def is_team2_wins_correct(self, series_actual):
+        return self.score.team2_wins == series_actual.score.team2_wins
 
 class Round:
     def __init__(self, number, series):
@@ -51,12 +63,12 @@ class Bracket:
 
 @app.route('/')
 def display_bracket():
-    return render_template('user_bracket.html', name="udi", bracket=bracket)
+    return render_template('user_bracket.html', name="udi", bracket=bracket, bracket_actual=bracket_actual)
 
 
 team1 = Team('Warriors')
 team2 = Team('Spurs')
-serie = Series(team1, team2)
+serie = Series(team1, team2, Score(4,3))
 round1 = Round(1, [serie]*4)
 round2 = Round(2, [serie]*2)
 round3 = Round(3, [serie])
@@ -64,5 +76,13 @@ conf = [round1, round2, round3]
 final = Round(4, [serie])
 bracket = Bracket(conf, list(conf), final)
 
+serie2 = Series(Team('Rockets'), team2, Score(3,4))
+r1 = Round(1, [serie2]*4)
+r2 = Round(2, [serie2]*2)
+r3 = Round(3, [serie2])
+cc = [r1, r2, r3]
+ff = Round(4, [serie2])
+bracket_actual = Bracket(cc, list(cc), ff)
+
 if __name__ == '__main__':
-    app.run(debug=True)
+   app.run(debug=True)

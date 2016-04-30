@@ -27,6 +27,15 @@ body{
     flex-grow:1;
   }
 
+.actual{
+  font-style: bold;
+}
+
+.wrong{
+  font-style: italic;
+  color: red;
+}
+
 /*
  *  General Styles
 */
